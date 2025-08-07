@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profils PCM - Conseils de communication</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      color: #1d1d1f;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      margin-top: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .profil {
+      margin: 30px 0;
+      padding: 32px;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profil::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+    }
+
+    .profil:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .profil h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1d1d1f;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profil-icon {
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+    }
+
+    .profil ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .profil ul li {
+      margin-bottom: 16px;
+      padding: 16px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 12px;
+      border-left: 4px solid #007AFF;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .profil ul li strong {
+      color: #007AFF;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      text-decoration: none;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 122, 255, 0.4);
+    }
+
+    .back-btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .profil {
+        padding: 24px;
+      }
+      
+      .profil h2 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Profils PCM – Conseils de communication</h1>
+
+    <div class="profil">
+      <h2>
+        <div class="profil-icon">🧠</div>
+        Penseur·se
+      </h2>
+      <ul>
+        <li><strong>À faire :</strong> être structuré·e, logique, précis·e</li>
+        <li><strong>Utilise :</strong> faits, procédures, explications claires</li>
+        <li><strong>Évite :</strong> l'imprécision, l'improvisation, les débordements émotionnels</li>
+      </ul>
+    </div>
+
+    <div class="profil">
+      <h2>
+        <div class="profil-icon">❤️</div>
+        Empathique
+      </h2>
+      <ul>
+        <li><strong>À faire :</strong> être chaleureux·se, humain·e, à l'écoute</li>
+        <li><strong>Utilise :</strong> reconnaissance, émotions, attention à l'autre</li>
+        <li><strong>Évite :</strong> le ton froid, distant ou impersonnel</li>
+      </ul>
+    </div>
+
+    <div class="profil">
+      <h2>
+        <div class="profil-icon">🌟</div>
+        Rebelle
+      </h2>
+      <ul>
+        <li><strong>À faire :</strong> être léger·e, spontané·e, ludique</li>
+        <li><strong>Utilise :</strong> humour, créativité, interaction dynamique</li>
+        <li><strong>Évite :</strong> la rigidité, les règles trop strictes</li>
+      </ul>
+    </div>
+
+    <div class="profil">
+      <h2>
+        <div class="profil-icon">📢</div>
+        Promoteur·rice
+      </h2>
+      <ul>
+        <li><strong>À faire :</strong> être direct·e, rapide, axé·e sur les résultats</li>
+        <li><strong>Utilise :</strong> défis, autonomie, action</li>
+        <li><strong>Évite :</strong> les détails excessifs, les lenteurs, le contrôle excessif</li>
+      </ul>
+    </div>
+
+    <div class="profil">
+      <h2>
+        <div class="profil-icon">🧘</div>
+        Rêveur·se
+      </h2>
+      <ul>
+        <li><strong>À faire :</strong> donner de l'espace, être calme et structuré·e</li>
+        <li><strong>Utilise :</strong> consignes claires, environnement paisible</li>
+        <li><strong>Évite :</strong> la précipitation, la surcharge de stimulations</li>
+      </ul>
+    </div>
+
+    <div class="profil">
+      <h2>
+        <div class="profil-icon">🧭</div>
+        Persévérant·e
+      </h2>
+      <ul>
+        <li><strong>À faire :</strong> être cohérent·e, engagé·e, respectueux·se des convictions</li>
+        <li><strong>Utilise :</strong> valeurs, justice, reconnaissance de l'engagement</li>
+        <li><strong>Évite :</strong> l'incohérence, le désintérêt apparent</li>
+      </ul>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html" class="back-btn">← Revenir au test</a>
+    </div>
+  </div>
+</body>
+</html>

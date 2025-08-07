@@ -312,7 +312,10 @@
       r.innerHTML = `
         <h2>Ton profil dominant : ${types[index]}</h2>
         <p><strong>Score :</strong> <span class="score-badge">${resultats[index]}</span></p>
-        <p>Ton profil secondaire : <strong>${types[secondaire.i]}</strong> <span class="score-badge">${secondaire.val}</span></p>`;
+        <p>Ton profil secondaire : <strong>${types[secondaire.i]}</strong> <span class="score-badge">${secondaire.val}</span></p>
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="profiles.html" class="submit-btn" style="text-decoration: none; display: inline-block;">Voir les détails des profils</a>
+        </div>`;
       window.scrollTo({ top: r.offsetTop, behavior: 'smooth' });
     });
   </script>
