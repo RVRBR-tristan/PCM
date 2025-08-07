@@ -6,36 +6,237 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test PCM - Résultat</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: auto;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      color: #1d1d1f;
+      line-height: 1.6;
       padding: 20px;
     }
-    h1, h2 {
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      margin-top: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #86868b;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .question {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .question:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .question-number {
+      display: inline-block;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-right: 12px;
+      margin-bottom: 8px;
+    }
+
+    .question-text {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: #1d1d1f;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .radio-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d2d2d7;
+      border-radius: 50%;
+      margin-right: 8px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .radio-option input[type="radio"]:checked {
+      border-color: #007AFF;
+      background: #007AFF;
+    }
+
+    .radio-option input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .radio-option label {
+      font-size: 0.95rem;
+      color: #1d1d1f;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+      margin: 40px auto 0;
+      box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 122, 255, 0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .resultat {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
       text-align: center;
     }
-    .question {
-      margin-bottom: 15px;
+
+    .resultat h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .resultat {
-      background: #f2f2f2;
-      padding: 20px;
-      margin-top: 30px;
-      border-radius: 10px;
+
+    .resultat p {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: #1d1d1f;
     }
-    .hidden { display: none; }
-    label { margin-right: 10px; }
+
+    .resultat strong {
+      color: #007AFF;
+      font-weight: 600;
+    }
+
+    .score-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .hidden { 
+      display: none; 
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .radio-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .question {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Test PCM</h1>
-  <p>Indique à quel point chaque affirmation te correspond :</p>
-  <form id="testPCM">
-    <div id="questions"></div>
-    <button type="submit">Voir mon profil dominant</button>
-  </form>
-  <div class="resultat hidden" id="resultat"></div>
+  <div class="container">
+    <h1>Test PCM</h1>
+    <p class="subtitle">Indique à quel point chaque affirmation te correspond :</p>
+    <form id="testPCM">
+      <div id="questions"></div>
+      <button type="submit" class="submit-btn">Voir mon profil dominant</button>
+    </form>
+    <div class="resultat hidden" id="resultat"></div>
+  </div>
 
   <script>
     const types = [
@@ -44,12 +245,12 @@
 
     const affirmations = [
       // 10 par type
-      ["J’aime planifier les choses à l’avance.", "Je me sens bien quand mon environnement est bien structuré.", "Je prends des décisions rationnelles basées sur des faits.", "J’organise mes journées selon un horaire.", "Je suis à l’aise avec les chiffres, les systèmes ou les procédures.", "Je suis ponctuel·le et fiable.", "J’ai besoin que les choses soient bien expliquées.", "J’ai tendance à analyser les situations en profondeur.", "Je suis plus à l’aise dans un cadre clair et prévisible.", "Je préfère les échanges professionnels aux discussions trop personnelles."],
-      ["J’aime aider les autres à se sentir mieux.", "Je suis facilement ému·e par les histoires des autres.", "Je préfère un environnement de travail bienveillant à un cadre strict.", "Je suis très attentif·ve aux émotions des autres.", "J’ai besoin de me sentir aimé·e ou apprécié·e.", "Je suis sensible aux conflits dans une équipe.", "Je valorise l’harmonie avant tout.", "Je prends souvent soin des autres.", "Mon bien-être dépend de mes relations humaines.", "J’ai du mal à cacher mes émotions."],
-      ["J’aime improviser plutôt que suivre un plan rigide.", "Je suis créatif·ve et j’aime trouver des solutions originales.", "J’ai besoin de m’amuser pour être motivé·e.", "Je me lasse rapidement de la routine.", "J’ai un humour un peu décalé.", "Je réagis au feeling plus qu’à la logique.", "Je pose des questions parfois 'hors cadre'.", "Je préfère la légèreté à la lourdeur des procédures.", "Je cherche souvent à casser les codes.", "Je suis énergique et expressif·ve dans mes réactions."],
-      ["J’aime prendre des risques calculés.", "Je préfère passer à l’action plutôt que réfléchir trop longtemps.", "J’ai une grande confiance en moi.", "Je suis compétitif·ve et motivé·e par les résultats.", "Je me sens à l’aise dans des situations de crise.", "Je suis à l’aise dans les environnements instables.", "J’aime convaincre les autres de mes idées.", "Je m’adapte rapidement aux imprévus.", "Je préfère travailler seul·e et efficacement que trop en équipe.", "Je fonctionne bien sous pression."],
-      ["J’ai besoin de temps seul·e pour me ressourcer.", "Je préfère observer avant d’agir.", "Je me sens bien dans un environnement silencieux.", "Je suis souvent perdu·e dans mes pensées.", "Je préfère qu’on me donne des consignes claires.", "Je me sens dépassé·e quand tout va trop vite.", "J’ai une riche vie intérieure.", "Je suis discret·ète dans un groupe.", "Je préfère écrire plutôt que parler.", "J’ai besoin d’un environnement stable et paisible."],
-      ["Je défends mes idées avec conviction.", "Je suis fidèle à mes valeurs.", "Je suis très attentif·ve à ce qui est juste ou injuste.", "Je cherche toujours à m’améliorer.", "Je suis très exigeant·e avec moi-même.", "J’ai besoin de reconnaissance pour mon engagement.", "Je suis loyal·e envers les causes que je défends.", "J’observe beaucoup les comportements des autres.", "Je remarque vite les incohérences ou les erreurs.", "J’ai besoin de savoir que mon travail a du sens."]
+      ["J'aime planifier les choses à l'avance.", "Je me sens bien quand mon environnement est bien structuré.", "Je prends des décisions rationnelles basées sur des faits.", "J'organise mes journées selon un horaire.", "Je suis à l'aise avec les chiffres, les systèmes ou les procédures.", "Je suis ponctuel·le et fiable.", "J'ai besoin que les choses soient bien expliquées.", "J'ai tendance à analyser les situations en profondeur.", "Je suis plus à l'aise dans un cadre clair et prévisible.", "Je préfère les échanges professionnels aux discussions trop personnelles."],
+      ["J'aime aider les autres à se sentir mieux.", "Je suis facilement ému·e par les histoires des autres.", "Je préfère un environnement de travail bienveillant à un cadre strict.", "Je suis très attentif·ve aux émotions des autres.", "J'ai besoin de me sentir aimé·e ou apprécié·e.", "Je suis sensible aux conflits dans une équipe.", "Je valorise l'harmonie avant tout.", "Je prends souvent soin des autres.", "Mon bien-être dépend de mes relations humaines.", "J'ai du mal à cacher mes émotions."],
+      ["J'aime improviser plutôt que suivre un plan rigide.", "Je suis créatif·ve et j'aime trouver des solutions originales.", "J'ai besoin de m'amuser pour être motivé·e.", "Je me lasse rapidement de la routine.", "J'ai un humour un peu décalé.", "Je réagis au feeling plus qu'à la logique.", "Je pose des questions parfois 'hors cadre'.", "Je préfère la légèreté à la lourdeur des procédures.", "Je cherche souvent à casser les codes.", "Je suis énergique et expressif·ve dans mes réactions."],
+      ["J'aime prendre des risques calculés.", "Je préfère passer à l'action plutôt que réfléchir trop longtemps.", "J'ai une grande confiance en moi.", "Je suis compétitif·ve et motivé·e par les résultats.", "Je me sens à l'aise dans des situations de crise.", "Je suis à l'aise dans les environnements instables.", "J'aime convaincre les autres de mes idées.", "Je m'adapte rapidement aux imprévus.", "Je préfère travailler seul·e et efficacement que trop en équipe.", "Je fonctionne bien sous pression."],
+      ["J'ai besoin de temps seul·e pour me ressourcer.", "Je préfère observer avant d'agir.", "Je me sens bien dans un environnement silencieux.", "Je suis souvent perdu·e dans mes pensées.", "Je préfère qu'on me donne des consignes claires.", "Je me sens dépassé·e quand tout va trop vite.", "J'ai une riche vie intérieure.", "Je suis discret·ète dans un groupe.", "Je préfère écrire plutôt que parler.", "J'ai besoin d'un environnement stable et paisible."],
+      ["Je défends mes idées avec conviction.", "Je suis fidèle à mes valeurs.", "Je suis très attentif·ve à ce qui est juste ou injuste.", "Je cherche toujours à m'améliorer.", "Je suis très exigeant·e avec moi-même.", "J'ai besoin de reconnaissance pour mon engagement.", "Je suis loyal·e envers les causes que je défends.", "J'observe beaucoup les comportements des autres.", "Je remarque vite les incohérences ou les erreurs.", "J'ai besoin de savoir que mon travail a du sens."]
     ];
 
     const container = document.getElementById("questions");
@@ -57,11 +258,27 @@
       bloc.forEach((text, i) => {
         const div = document.createElement("div");
         div.className = "question";
-        div.innerHTML = `<strong>${(blocIndex*10+i+1).toString().padStart(2, '0')}.</strong> ${text}<br>
-          <label><input type="radio" name="q${blocIndex}_${i}" value="1" required> 1</label>
-          <label><input type="radio" name="q${blocIndex}_${i}" value="2"> 2</label>
-          <label><input type="radio" name="q${blocIndex}_${i}" value="3"> 3</label>
-          <label><input type="radio" name="q${blocIndex}_${i}" value="4"> 4</label>`;
+        div.innerHTML = `
+          <div class="question-number">${(blocIndex*10+i+1).toString().padStart(2, '0')}</div>
+          <div class="question-text">${text}</div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="q${blocIndex}_${i}" value="1" required>
+              <label>1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="q${blocIndex}_${i}" value="2">
+              <label>2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="q${blocIndex}_${i}" value="3">
+              <label>3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="q${blocIndex}_${i}" value="4">
+              <label>4</label>
+            </div>
+          </div>`;
         container.appendChild(div);
       });
     });
@@ -84,9 +301,10 @@
 
       const r = document.getElementById("resultat");
       r.classList.remove("hidden");
-      r.innerHTML = `<h2>Ton profil dominant : ${types[index]}</h2>
-        <p><strong>Score :</strong> ${resultats[index]}</p>
-        <p>Ton profil secondaire : ${types[secondaire.i]} (${secondaire.val})</p>`;
+      r.innerHTML = `
+        <h2>Ton profil dominant : ${types[index]}</h2>
+        <p><strong>Score :</strong> <span class="score-badge">${resultats[index]}</span></p>
+        <p>Ton profil secondaire : <strong>${types[secondaire.i]}</strong> <span class="score-badge">${secondaire.val}</span></p>`;
       window.scrollTo({ top: r.offsetTop, behavior: 'smooth' });
     });
   </script>
