@@ -168,83 +168,135 @@
 </head>
 <body>
   <div class="container">
-    <h1>Profils PCM – Conseils de communication</h1>
-
-    <div class="profil">
-      <h2>
-        <div class="profil-icon">🧠</div>
-        Penseur·se
-      </h2>
-      <ul>
-        <li><strong>À faire :</strong> être structuré·e, logique, précis·e</li>
-        <li><strong>Utilise :</strong> faits, procédures, explications claires</li>
-        <li><strong>Évite :</strong> l'imprécision, l'improvisation, les débordements émotionnels</li>
-      </ul>
-    </div>
-
-    <div class="profil">
-      <h2>
-        <div class="profil-icon">❤️</div>
-        Empathique
-      </h2>
-      <ul>
-        <li><strong>À faire :</strong> être chaleureux·se, humain·e, à l'écoute</li>
-        <li><strong>Utilise :</strong> reconnaissance, émotions, attention à l'autre</li>
-        <li><strong>Évite :</strong> le ton froid, distant ou impersonnel</li>
-      </ul>
-    </div>
-
-    <div class="profil">
-      <h2>
-        <div class="profil-icon">🌟</div>
-        Rebelle
-      </h2>
-      <ul>
-        <li><strong>À faire :</strong> être léger·e, spontané·e, ludique</li>
-        <li><strong>Utilise :</strong> humour, créativité, interaction dynamique</li>
-        <li><strong>Évite :</strong> la rigidité, les règles trop strictes</li>
-      </ul>
-    </div>
-
-    <div class="profil">
-      <h2>
-        <div class="profil-icon">📢</div>
-        Promoteur·rice
-      </h2>
-      <ul>
-        <li><strong>À faire :</strong> être direct·e, rapide, axé·e sur les résultats</li>
-        <li><strong>Utilise :</strong> défis, autonomie, action</li>
-        <li><strong>Évite :</strong> les détails excessifs, les lenteurs, le contrôle excessif</li>
-      </ul>
-    </div>
-
-    <div class="profil">
-      <h2>
-        <div class="profil-icon">🧘</div>
-        Rêveur·se
-      </h2>
-      <ul>
-        <li><strong>À faire :</strong> donner de l'espace, être calme et structuré·e</li>
-        <li><strong>Utilise :</strong> consignes claires, environnement paisible</li>
-        <li><strong>Évite :</strong> la précipitation, la surcharge de stimulations</li>
-      </ul>
-    </div>
-
-    <div class="profil">
-      <h2>
-        <div class="profil-icon">🧭</div>
-        Persévérant·e
-      </h2>
-      <ul>
-        <li><strong>À faire :</strong> être cohérent·e, engagé·e, respectueux·se des convictions</li>
-        <li><strong>Utilise :</strong> valeurs, justice, reconnaissance de l'engagement</li>
-        <li><strong>Évite :</strong> l'incohérence, le désintérêt apparent</li>
-      </ul>
-    </div>
-
+    <h1>Ton profil PCM</h1>
+    <div id="profile-content"></div>
     <div class="back-link">
       <a href="index.html" class="back-btn">← Revenir au test</a>
     </div>
   </div>
+
+  <script>
+    const profiles = [
+      {
+        name: 'Penseur·se',
+        icon: '🧠',
+        advice: [
+          { title: 'À faire', content: 'être structuré·e, logique, précis·e' },
+          { title: 'Utilise', content: 'faits, procédures, explications claires' },
+          { title: 'Évite', content: 'l\'imprécision, l\'improvisation, les débordements émotionnels' }
+        ]
+      },
+      {
+        name: 'Empathique',
+        icon: '❤️',
+        advice: [
+          { title: 'À faire', content: 'être chaleureux·se, humain·e, à l\'écoute' },
+          { title: 'Utilise', content: 'reconnaissance, émotions, attention à l\'autre' },
+          { title: 'Évite', content: 'le ton froid, distant ou impersonnel' }
+        ]
+      },
+      {
+        name: 'Rebelle',
+        icon: '🌟',
+        advice: [
+          { title: 'À faire', content: 'être léger·e, spontané·e, ludique' },
+          { title: 'Utilise', content: 'humour, créativité, interaction dynamique' },
+          { title: 'Évite', content: 'la rigidité, les règles trop strictes' }
+        ]
+      },
+      {
+        name: 'Promoteur·rice',
+        icon: '📢',
+        advice: [
+          { title: 'À faire', content: 'être direct·e, rapide, axé·e sur les résultats' },
+          { title: 'Utilise', content: 'défis, autonomie, action' },
+          { title: 'Évite', content: 'les détails excessifs, les lenteurs, le contrôle excessif' }
+        ]
+      },
+      {
+        name: 'Rêveur·se',
+        icon: '🧘',
+        advice: [
+          { title: 'À faire', content: 'donner de l\'espace, être calme et structuré·e' },
+          { title: 'Utilise', content: 'consignes claires, environnement paisible' },
+          { title: 'Évite', content: 'la précipitation, la surcharge de stimulations' }
+        ]
+      },
+      {
+        name: 'Persévérant·e',
+        icon: '🧭',
+        advice: [
+          { title: 'À faire', content: 'être cohérent·e, engagé·e, respectueux·se des convictions' },
+          { title: 'Utilise', content: 'valeurs, justice, reconnaissance de l\'engagement' },
+          { title: 'Évite', content: 'l\'incohérence, le désintérêt apparent' }
+        ]
+      }
+    ];
+
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileIndex = urlParams.get('profile');
+    const secondaryIndex = urlParams.get('secondary');
+
+    const profileContent = document.getElementById('profile-content');
+
+    if (profileIndex !== null) {
+      const mainProfile = profiles[parseInt(profileIndex)];
+      const secondaryProfile = secondaryIndex !== null ? profiles[parseInt(secondaryIndex)] : null;
+
+      // Display main profile
+      let html = `
+        <div class="profil" style="border: 3px solid #007AFF;">
+          <h2>
+            <div class="profil-icon">${mainProfile.icon}</div>
+            ${mainProfile.name} - Ton profil dominant
+          </h2>
+          <ul>`;
+      
+      mainProfile.advice.forEach(item => {
+        html += `<li><strong>${item.title} :</strong> ${item.content}</li>`;
+      });
+      
+      html += `</ul></div>`;
+
+      // Display secondary profile if available
+      if (secondaryProfile) {
+        html += `
+          <div class="profil" style="border: 3px solid #5856D6; margin-top: 30px;">
+            <h2>
+              <div class="profil-icon">${secondaryProfile.icon}</div>
+              ${secondaryProfile.name} - Ton profil secondaire
+            </h2>
+            <ul>`;
+        
+        secondaryProfile.advice.forEach(item => {
+          html += `<li><strong>${item.title} :</strong> ${item.content}</li>`;
+        });
+        
+        html += `</ul></div>`;
+      }
+
+      profileContent.innerHTML = html;
+    } else {
+      // If no profile parameter, show all profiles (fallback)
+      let html = '<h2 style="text-align: center; margin-bottom: 30px;">Tous les profils PCM</h2>';
+      profiles.forEach(profile => {
+        html += `
+          <div class="profil">
+            <h2>
+              <div class="profil-icon">${profile.icon}</div>
+              ${profile.name}
+            </h2>
+            <ul>`;
+        
+        profile.advice.forEach(item => {
+          html += `<li><strong>${item.title} :</strong> ${item.content}</li>`;
+        });
+        
+        html += `</ul></div>`;
+      });
+      profileContent.innerHTML = html;
+    }
+  </script>
 </body>
 </html>
