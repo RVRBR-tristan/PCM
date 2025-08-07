@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ton Test PCM</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -202,6 +203,60 @@
       margin-left: 8px;
     }
 
+    .export-btn {
+      background: linear-gradient(135deg, #34C759, #30D158);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 12px;
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4);
+    }
+
+    .export-btn:active {
+      transform: translateY(0);
+    }
+
+    .image-preview {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border: 2px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .download-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .download-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+    }
+
     .hidden { 
       display: none; 
     }
@@ -316,9 +371,112 @@
         <p>Ton profil secondaire : <strong>${types[secondaire.i]}</strong> <span class="score-badge">${secondaire.val}</span></p>
         <div style="text-align: center; margin-top: 30px;">
           <a href="profiles.html?profile=${index}&secondary=${secondaire.i}" class="submit-btn" style="text-decoration: none; display: inline-block;">Voir les détails de mon profil</a>
-        </div>`;
+          <button class="export-btn" onclick="exportResults()">
+            📸 Exporter en image
+          </button>
+        </div>
+        <div class="image-preview hidden" id="imagePreview"></div>`;
       window.scrollTo({ top: r.offsetTop, behavior: 'smooth' });
     });
+
+    // Export results as PNG image
+    function exportResults() {
+      const resultat = document.getElementById('resultat');
+      const imagePreview = document.getElementById('imagePreview');
+      
+      // Show loading state
+      const exportBtn = document.querySelector('.export-btn');
+      const originalText = exportBtn.innerHTML;
+      exportBtn.innerHTML = '🔄 Génération...';
+      exportBtn.disabled = true;
+
+      // Create a temporary container for better image capture
+      const tempContainer = document.createElement('div');
+      tempContainer.style.cssText = `
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      `;
+      
+      // Clone the result content
+      const resultClone = resultat.cloneNode(true);
+      resultClone.style.cssText = `
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        text-align: center;
+      `;
+      
+      // Remove the buttons from the clone
+      const buttonsContainer = resultClone.querySelector('div');
+      if (buttonsContainer) {
+        buttonsContainer.remove();
+      }
+      
+      // Add title to the image
+      const title = document.createElement('h1');
+      title.innerHTML = 'Test PCM - Résultats';
+      title.style.cssText = `
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #007AFF, #5856D6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      `;
+      
+      tempContainer.appendChild(title);
+      tempContainer.appendChild(resultClone);
+      document.body.appendChild(tempContainer);
+
+      // Capture the image
+      html2canvas(tempContainer, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        width: 600,
+        height: tempContainer.offsetHeight
+      }).then(canvas => {
+        // Remove temporary container
+        document.body.removeChild(tempContainer);
+        
+        // Convert to blob and create download link
+        canvas.toBlob(function(blob) {
+          const url = URL.createObjectURL(blob);
+          
+          // Show preview and download link
+          imagePreview.classList.remove('hidden');
+          imagePreview.innerHTML = `
+            <img src="${url}" alt="Résultats PCM" />
+            <br>
+            <a href="${url}" download="resultats-pcm.png" class="download-link">
+              💾 Télécharger l'image
+            </a>
+          `;
+          
+          // Reset button
+          exportBtn.innerHTML = originalText;
+          exportBtn.disabled = false;
+          
+          // Scroll to preview
+          imagePreview.scrollIntoView({ behavior: 'smooth' });
+        }, 'image/png');
+      }).catch(error => {
+        console.error('Error generating image:', error);
+        exportBtn.innerHTML = originalText;
+        exportBtn.disabled = false;
+        alert('Erreur lors de la génération de l\'image. Veuillez réessayer.');
+      });
+    }
   </script>
 </body>
 </html>
