@@ -143,6 +143,61 @@
       transform: translateY(0);
     }
 
+    .share-section {
+      text-align: center;
+      margin: 40px 0;
+      padding: 30px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .share-section h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1d1d1f;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 122, 255, 0.4);
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+    }
+
+    .copy-feedback {
+      color: #007AFF;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 15px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .copy-feedback.show {
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 20px;
@@ -170,6 +225,15 @@
   <div class="container">
     <h1>Ton profil PCM</h1>
     <div id="profile-content"></div>
+    
+    <div class="share-section">
+      <h3>Partager mon profil PCM</h3>
+      <button class="copy-btn" onclick="copyToClipboard()">
+        📋 Copier le lien
+      </button>
+      <div class="copy-feedback" id="copyFeedback">Lien copié !</div>
+    </div>
+    
     <div class="back-link">
       <a href="index.html" class="back-btn">← Revenir au test</a>
     </div>
@@ -295,8 +359,35 @@
         
         html += `</ul></div>`;
       });
-      profileContent.innerHTML = html;
-    }
-  </script>
+             profileContent.innerHTML = html;
+     }
+
+     // Copy to clipboard functionality
+     function copyToClipboard() {
+       const currentUrl = window.location.href;
+       navigator.clipboard.writeText(currentUrl).then(() => {
+         const feedback = document.getElementById('copyFeedback');
+         feedback.classList.add('show');
+         setTimeout(() => {
+           feedback.classList.remove('show');
+         }, 2000);
+       }).catch(err => {
+         console.error('Failed to copy: ', err);
+         // Fallback for older browsers
+         const textArea = document.createElement('textarea');
+         textArea.value = currentUrl;
+         document.body.appendChild(textArea);
+         textArea.select();
+         document.execCommand('copy');
+         document.body.removeChild(textArea);
+         
+         const feedback = document.getElementById('copyFeedback');
+         feedback.classList.add('show');
+         setTimeout(() => {
+           feedback.classList.remove('show');
+         }, 2000);
+       });
+     }
+   </script>
 </body>
 </html>
