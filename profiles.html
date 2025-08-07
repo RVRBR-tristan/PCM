@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profils PCM - Conseils de communication</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -198,6 +199,69 @@
       opacity: 1;
     }
 
+    .export-btn {
+      background: linear-gradient(135deg, #34C759, #30D158);
+      color: white;
+      border: none;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(52, 199, 89, 0.4);
+    }
+
+    .export-btn:active {
+      transform: translateY(0);
+    }
+
+    .export-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .image-preview {
+      margin-top: 30px;
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border: 2px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .download-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .download-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 20px;
@@ -232,7 +296,13 @@
         📋 Copier le lien
       </button>
       <div class="copy-feedback" id="copyFeedback">Lien copié !</div>
+      
+      <button class="export-btn" onclick="exportProfileImage()">
+        📸 Exporter en image
+      </button>
     </div>
+    
+    <div class="image-preview hidden" id="imagePreview"></div>
     
     <div class="back-link">
       <a href="index.html" class="back-btn">← Revenir au test</a>
@@ -387,6 +457,129 @@
            feedback.classList.remove('show');
          }, 2000);
        });
+     }
+
+     // Export profile as PNG image
+     function exportProfileImage() {
+       const profileContent = document.getElementById('profile-content');
+       const imagePreview = document.getElementById('imagePreview');
+       const exportBtn = document.querySelector('.export-btn');
+       
+       // Show loading state
+       const originalText = exportBtn.innerHTML;
+       exportBtn.innerHTML = '🔄 Génération...';
+       exportBtn.disabled = true;
+
+       // Create a temporary container for better image capture
+       const tempContainer = document.createElement('div');
+       tempContainer.style.cssText = `
+         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+         padding: 40px;
+         border-radius: 20px;
+         max-width: 800px;
+         margin: 0 auto;
+         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         min-height: 100vh;
+       `;
+       
+       // Add title
+       const title = document.createElement('h1');
+       title.innerHTML = 'Mon Profil PCM - Détails';
+       title.style.cssText = `
+         text-align: center;
+         font-size: 2.5rem;
+         font-weight: 700;
+         margin-bottom: 40px;
+         background: linear-gradient(135deg, #007AFF, #5856D6);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+         background-clip: text;
+       `;
+       
+       // Clone the profile content
+       const contentClone = profileContent.cloneNode(true);
+       
+       // Style the cloned content
+       const profileCards = contentClone.querySelectorAll('.profil');
+       profileCards.forEach(card => {
+         card.style.cssText = `
+           margin: 30px 0;
+           padding: 32px;
+           border-radius: 16px;
+           background: #ffffff;
+           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+           border: 1px solid rgba(0, 0, 0, 0.05);
+           transition: all 0.3s ease;
+           position: relative;
+           overflow: hidden;
+         `;
+         
+         // Add gradient border
+         card.style.setProperty('--gradient-border', 'linear-gradient(135deg, #007AFF, #5856D6)');
+         card.style.border = '3px solid transparent';
+         card.style.background = 'linear-gradient(white, white) padding-box, var(--gradient-border) border-box';
+       });
+       
+       tempContainer.appendChild(title);
+       tempContainer.appendChild(contentClone);
+       document.body.appendChild(tempContainer);
+
+       // Capture the image
+       html2canvas(tempContainer, {
+         backgroundColor: null,
+         scale: 2,
+         useCORS: true,
+         allowTaint: true,
+         width: 800,
+         height: tempContainer.offsetHeight,
+         scrollY: 0,
+         scrollX: 0
+       }).then(canvas => {
+         // Remove temporary container
+         document.body.removeChild(tempContainer);
+         
+         // Convert to blob and create download link
+         canvas.toBlob(function(blob) {
+           const url = URL.createObjectURL(blob);
+           
+           // Get profile name for filename
+           const profileName = getProfileName();
+           const filename = `profil-pcm-${profileName.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`;
+           
+           // Show preview and download link
+           imagePreview.classList.remove('hidden');
+           imagePreview.innerHTML = `
+             <img src="${url}" alt="Profil PCM détaillé" />
+             <br>
+             <a href="${url}" download="${filename}" class="download-link">
+               💾 Télécharger l'image
+             </a>
+           `;
+           
+           // Reset button
+           exportBtn.innerHTML = originalText;
+           exportBtn.disabled = false;
+           
+           // Scroll to preview
+           imagePreview.scrollIntoView({ behavior: 'smooth' });
+         }, 'image/png');
+       }).catch(error => {
+         console.error('Error generating image:', error);
+         exportBtn.innerHTML = originalText;
+         exportBtn.disabled = false;
+         alert('Erreur lors de la génération de l\'image. Veuillez réessayer.');
+       });
+     }
+
+     // Helper function to get profile name for filename
+     function getProfileName() {
+       const urlParams = new URLSearchParams(window.location.search);
+       const profileIndex = urlParams.get('profile');
+       if (profileIndex !== null) {
+         const profile = profiles[parseInt(profileIndex)];
+         return profile.name;
+       }
+       return 'complet';
      }
    </script>
 </body>
